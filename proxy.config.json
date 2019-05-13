@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+        "target": "http://localhost:8080/borrower-app-0.0.1-SNAPSHOT",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+  }

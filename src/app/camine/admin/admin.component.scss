@@ -1,0 +1,87 @@
+mat-accordion
+{
+  margin-top: 10px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 40px;
+  background-color: rgba(204, 203, 202, 0.877);
+}
+
+mat-card
+{
+  margin-top: 40px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 40px;
+  background-color: rgba(204, 203, 202, 0.877);
+}
+
+mat-card-content
+{
+  margin-top: 20px;
+  text-align: center;
+}
+
+.panel-size
+{
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.panel-size2
+{
+  margin-right: 350px;
+  margin-left: 350px;
+}
+
+.form-check label 
+{
+  margin-right: -10px;
+  vertical-align: middle;
+  margin-top:-10px;
+}
+.form-check input 
+{
+  vertical-align: middle;
+}
+.form-check label span 
+{
+  vertical-align: middle;
+}
+
+.mytable thead th 
+{
+  border: solid 4px #DDEEEE;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.mytable tbody td 
+{
+  border: solid 4px #DDEEEE;
+}
+
+.mytable tbody :scope
+{
+  border: solid 4px #DDEEEE;
+}
+
+h1
+{
+  margin: 0px;
+  text-align: center;
+  margin-bottom: 80px;
+}
+h4
+{
+  margin-top: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+h3
+{
+  margin-top: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+}
