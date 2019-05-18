@@ -43,7 +43,7 @@ public getSingleCamera<T>(id: number): Observable<T> {
   return this.http.get<T>(this.actionUrl+"camera/" + id);
 }
 
-public getAllCameraByCamin<T>(id: number): Observable<T> {
+public getAllCameraByNumarCamin<T>(id: number): Observable<T> {
   return this.http.get<T>(this.actionUrl+"camera/getByCamin/" + id);
 }
 

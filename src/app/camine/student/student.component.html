@@ -1,185 +1,210 @@
 <body>
   <h1 *ngIf="student">Bun venit, {{student.prenume}}!</h1>
-  
+
   <mat-accordion class='card' *ngIf="student">
     <h3>Informații cazare</h3>
     <mat-divider></mat-divider>
-    <h6>în acest moment apari ca fiind cazat în căminul , camera {{student.camera}}.</h6>
+    <h6>în acest moment apari ca fiind cazat în căminul {{student.camin.numarCamin}}, camera {{student.camera}}.</h6>
     <h6>Dorești ca în anul următor să rămâi în același cămin și în aceeași cameră?</h6>
     <mat-accordion>
       <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
         <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
           <mat-panel-title>
-            <strong>Da, voi trimite o cerere administratorului</strong>       
+            <strong>Da, voi trimite o cerere administratorului</strong>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <form action="">
           Nume:
           <div class="form-group has-success">
-            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.nume}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.nume}}
+              readonly>
           </div>
           Prenume:
           <div class="form-group has-success">
-            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.prenume}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.prenume}}
+              readonly>
           </div>
           Facultate:
           <div class="form-group has-success">
-            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.facultate}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.facultate}}
+              readonly>
           </div>
           An de studii:
           <div class="form-group has-success">
-            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.an}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.an}}
+              readonly>
           </div>
           Oraș:
           <div class="form-group has-success">
-            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.oras}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.oras}}
+              readonly>
           </div>
           Județ:
           <div class="form-group has-success">
-            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.judet}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.judet}}
+              readonly>
           </div>
           Număr de telefon:
           <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.telefon}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.telefon}}
+              readonly>
           </div>
           Email:
           <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.email}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.email}}
+              readonly>
           </div>
           <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" value="" onclick="return false;">
-                <!-- <input *ngIf = '{{student.orfan}}==1' class="form-check-input" type="checkbox" value="" checked=""> -->
-                Orfan
-                <span class="form-check-sign"></span>
-              </label>
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" [checked]="student.orfan"
+                onclick="return false;">
+              Orfan
+              <span class="form-check-sign"></span>
+            </label>
           </div>
           <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" value="" checked="" onclick="return false;">
-                Situație socială precară
-                <span class="form-check-sign"></span>
-              </label>
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" [checked]="student.situatieSocialaPrecara"
+                onclick="return false;">
+              Situație socială precară
+              <span class="form-check-sign"></span>
+            </label>
           </div>
           <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" value="" onclick="return false;">
-                Situație medicală specială
-                <span class="form-check-sign"></span>
-              </label>
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" [checked]="student.situatieMedicalaSpeciala"
+                onclick="return false;">
+              Situație medicală specială
+              <span class="form-check-sign"></span>
+            </label>
           </div>
           Cămin:
           <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value= readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1"
+              value={{student.camin.numarCamin}} readonly>
           </div>
           Cameră:
           <div class="form-group has-success">
-            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.camera}} readonly>
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.camera}}
+              readonly>
           </div>
           <button type="button" class="btn btn-outline-success btn-round">Trimite</button>
           <!-- <button type="button" class="btn btn-outline-success btn-round" (click)="submit()">Trimite</button> -->
-          
+
         </form>
         <mat-action-row>
-            <button mat-button class="btn btn-primary btn-sm" (click)="nextStep()"><i class="fa fa-arrow-right"></i></button>
-        </mat-action-row>       
+          <button mat-button class="btn btn-primary btn-sm" (click)="nextStep()"><i
+              class="fa fa-arrow-right"></i></button>
+        </mat-action-row>
 
-      </mat-expansion-panel>      
+      </mat-expansion-panel>
     </mat-accordion>
     <mat-accordion>
       <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
         <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
           <mat-panel-title>
-            <strong>Nu, doresc sa completez o cerere noua de cazare</strong>       
+            <strong>Nu, doresc sa completez o cerere noua de cazare</strong>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <form action="">
-            Nume:
-            <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.nume}} readonly>
-            </div>
-            Prenume:
-            <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.prenume}} readonly>
-            </div>
-            Facultate:
-            <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.facultate}} readonly>
-            </div>
-            An de studii:
-            <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.an}} readonly>
-            </div>
-            Oraș:
-            <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.oras}} readonly>
-            </div>
-            Județ:
-            <div class="form-group has-success">
-              <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.judet}} readonly>
-            </div>
-            Număr de telefon:
-            <div class="form-group has-success">
-                <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.telefon}} readonly>
-            </div>
-            Email:
-            <div class="form-group has-success">
-                <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.email}} readonly>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="" onclick="return false;">
-                  Orfan
-                  <span class="form-check-sign"></span>
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="" checked="" onclick="return false;">
-                  Situație socială precară
-                  <span class="form-check-sign"></span>
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="" onclick="return false;">
-                  Situație medicală specială
-                  <span class="form-check-sign"></span>
-                </label>
-            </div>
-            Selectează căminul:
-            <div class="form-group">
-              <select class="form-control">
-                <option value="" selected disabled hidden>Selectează căminul</option>
-                <option *ngFor="let camin of camine" [value]="camin">{{camin}}</option>
-              </select>
-            </div> 
-            Selectează camera:
-            <div class="form-group">
-              <select class="form-control" name="camera">
-                <option value="" selected disabled hidden>Selectează camera</option>
-                <option *ngFor="let camera of camere" [value]="camera">{{camera}}</option>
-              </select>
-            </div>           
+          Nume:
+          <div class="form-group has-success">
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.nume}}
+              readonly>
+          </div>
+          Prenume:
+          <div class="form-group has-success">
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.prenume}}
+              readonly>
+          </div>
+          Facultate:
+          <div class="form-group has-success">
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.facultate}}
+              readonly>
+          </div>
+          An de studii:
+          <div class="form-group has-success">
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.an}}
+              readonly>
+          </div>
+          Oraș:
+          <div class="form-group has-success">
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.oras}}
+              readonly>
+          </div>
+          Județ:
+          <div class="form-group has-success">
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.judet}}
+              readonly>
+          </div>
+          Număr de telefon:
+          <div class="form-group has-success">
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.telefon}}
+              readonly>
+          </div>
+          Email:
+          <div class="form-group has-success">
+            <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.email}}
+              readonly>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" [checked]="student.orfan"
+                onclick="return false;">
+              Orfan
+              <span class="form-check-sign"></span>
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" [checked]="student.situatieSocialaPrecara"
+                onclick="return false;">
+              Situație socială precară
+              <span class="form-check-sign"></span>
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" [checked]="student.situatieMedicalaSpeciala"
+                onclick="return false;">
+              Situație medicală specială
+              <span class="form-check-sign"></span>
+            </label>
+          </div>
+          Selectează căminul:
+          <div class="form-group">
+            <select class="form-control" name="camin" [(ngModel)]="caminSelectat" (change)="selectCamin()">
+              <option value="" selected disabled hidden>Selectează camera</option>
+              <option *ngFor="let camin of camine" [ngValue]="camin">{{camin.numarCamin}}</option>
+            </select>
+          </div>
+          Selectează camera:
+          <div class="form-group">
+            <select class="form-control" name="camera" [(ngModel)]="cameraSelectata" (change)="selectCamera()">
+              <option value="" selected disabled hidden>Selectează camera</option>
+              <option *ngFor="let camera of camere" [ngValue]="camera">{{camera.numarCamera}}</option>
+            </select>
+          </div>
 
-            <button type="button" class="btn btn-outline-success btn-round">Trimite</button>
-          </form>
-          
+          <button type="button" class="btn btn-outline-success btn-round">Trimite</button>
+        </form>
 
-          <mat-action-row>
-              <button mat-button class="btn btn-primary btn-sm" (click)="prevStep()"><i class="fa fa-arrow-left"></i></button>
-              <button mat-button class="btn btn-primary btn-sm" (click)="nextStep()"><i class="fa fa-arrow-up"></i></button>
-            </mat-action-row>
-      </mat-expansion-panel>      
+
+        <mat-action-row>
+          <button mat-button class="btn btn-primary btn-sm" (click)="prevStep()"><i
+              class="fa fa-arrow-left"></i></button>
+          <button mat-button class="btn btn-primary btn-sm" (click)="nextStep()"><i class="fa fa-arrow-up"></i></button>
+        </mat-action-row>
+      </mat-expansion-panel>
     </mat-accordion>
   </mat-accordion>
-    <mat-card class="card">
-      <mat-card-title>
-          <h4>Anunțuri</h4>
-          <mat-divider></mat-divider>
-          <mat-card-content>
-            
-          </mat-card-content>
-      </mat-card-title>
-    </mat-card>
+  <mat-card class="card">
+    <mat-card-title>
+      <h4>Anunțuri</h4>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+
+      </mat-card-content>
+    </mat-card-title>
+  </mat-card>
 </body>
