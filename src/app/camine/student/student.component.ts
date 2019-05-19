@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallBackendService } from 'app/api-call-backend.service';
+import { Cerere, PENDING_STATUS, ACCEPTED_STATUS } from './cerere.model';
 
 @Component({
   selector: 'app-student',
@@ -8,13 +9,23 @@ import { ApiCallBackendService } from 'app/api-call-backend.service';
 })
 export class StudentComponent implements OnInit {
 
-  idStudent = 11;
-  student: any[];
+  idStudent = 12;
+  student: any;
 
-  caminSelectat: any;
-  cameraSelectata: any;
   camine = [];
   camere = [];
+  cereri = [];
+  formularCompletat = false;
+  caminSelectat: any;
+  cameraSelectata: any;
+
+  afisareMesajSucces = false;
+  afisareMesajEroare = false;
+  sfarsitCerere = false;
+
+  mesajSucces = 'Cerere a fost trimisa cu succes!';
+  mesajEroare = 'A parut o eroare :(';
+
 
   constructor(
     private dataService: ApiCallBackendService
@@ -39,6 +50,24 @@ export class StudentComponent implements OnInit {
           console.log("Eroare!" + error);
         }
       );
+
+    this.dataService.getCereriByIdStudent(this.idStudent)
+      .subscribe(
+        (data: any[]) => {
+          this.cereri = data;
+
+          const isPending = !!this.cereri.find((cerere) => cerere.status === PENDING_STATUS);
+          const isAccepted = !!this.cereri.find((cerere) => cerere.status === ACCEPTED_STATUS);
+
+          if (isAccepted) {
+            this.sfarsitCerere = true;
+          }
+
+          if (isPending) {
+            this.afisareMesajSucces = true;
+            this.sfarsitCerere = true;
+          }
+        });
   }
 
   public selectCamin() {
@@ -50,20 +79,51 @@ export class StudentComponent implements OnInit {
   }
 
   public selectCamera() {
-    console.log(this.cameraSelectata, "CAMERA SELECTATA");
+    this.formularCompletat = true;
   }
 
-  // submit()
-  // {
-  //   interface cereri {
-  // bar: string;
-  // baz: boolean;
-  // idk: number;
+  public submitDa(): void {
+    this.submit(this.student.camin, this.student.camera, this.student.etaj);
+  }
 
-  //   public addCerere<T>(cereri:any): Observable<T> {
-  //     return this.http.post<T>(this.actionUrl+"cereri", cereri);
-  //   }
-  // }
+  public submitNu(): void {
+    if (!this.formularCompletat) {
+      return;
+    }
+
+    this.submit(this.caminSelectat, this.cameraSelectata.numarCamera, this.cameraSelectata.etaj);
+  }
+
+  private submit(camin: any, numarCamera: number, etaj: number): void {
+
+    const cerere: Cerere = {
+      idStudent: this.student.idStudent,
+      nume: this.student.nume,
+      prenume: this.student.prenume,
+      facultate: this.student.facultate,
+      an: this.student.an,
+      oras: this.student.oras,
+      judet: this.student.judet,
+      telefon: this.student.telefon,
+      email: this.student.email,
+      orfan: this.student.orfan,
+      situatieSocialaPrecara: this.student.situatieSocialaPrecara,
+      situatieMedicalaSpeciala: this.student.situatieMedicalaSpeciala,
+      arhiva: this.student.arhiva,
+      cazat: this.student.cazat,
+      camin: camin,
+      etaj: etaj,
+      camera: numarCamera,
+      confirmat: this.student.confirmat,
+      status: PENDING_STATUS
+    }
+
+    this.dataService.addCerere("", cerere)
+      .subscribe(
+        (data) => { console.log(data); this.afisareMesajSucces = true; this.sfarsitCerere = true },
+        (error) => { console.log(error); this.afisareMesajEroare = true; this.sfarsitCerere = true }
+      );
+  }
 
   step = -1;
   setStep(index: number) { this.step = index; }

@@ -2,71 +2,78 @@
   <h1 *ngIf="camin">Bun venit</h1>
   <mat-card class="card">
     <mat-card-title>
-        <h3>Cereri cazare</h3>
+      <h3>Cereri cazare</h3>
     </mat-card-title>
     <mat-divider></mat-divider>
     <mat-card-content class='card-body'>
       <div class='table-responsive'>
-                   
+
         <table class='mytable'>
           <thead>
             <tr>
-            <th>Nume</th>
-            <th>Prenume</th>
-            <th>Facultate</th>
-            <th>An de studii</th>
-            <th>Oras</th>
-            <th>Judet</th>
-            <th>Numar Telefon</th>
-            <th>Email</th>
-            <th>Orfan</th>
-            <th>Situație socială precară</th>
-            <th>Situație medicală specială</th>
-            <th>Cămin</th>
-            <th>Cameră</th>
-            <th></th>
+              <th>Nume</th>
+              <th>Prenume</th>
+              <th>Facultate</th>
+              <th>An de studii</th>
+              <th>Oras</th>
+              <th>Judet</th>
+              <th>Numar Telefon</th>
+              <th>Email</th>
+              <th>Orfan</th>
+              <th>Situație socială precară</th>
+              <th>Situație medicală specială</th>
+              <th>Cameră</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody align="center">
-            <tr *ngFor='let student of cerere'>
-              <td>{{student.nume}}</td>
-              <td>{{student.prenume}}</td>
-              <td>{{student.facultate}}</td>
-              <td>{{student.an}}</td>
-              <td>{{student.oras}}</td>
-              <td>{{student.judet}}</td>
-              <td>{{student.numartelefon}}</td>
-              <td>{{student.email}}</td>
-              <td><div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="">
-                  <span class="form-check-sign"></span>
-                </label>
-            </div></td>
-              <td><div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="" checked="">
-                  <span class="form-check-sign"></span>
-                </label>
-            </div></td>
-              <td><div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="">
-                  <span class="form-check-sign"></span>
-                </label>
-            </div></td>
-              <td>3</td>
+            <tr *ngFor='let cerere of cereri'>
+              <td>{{cerere.nume}}</td>
+              <td>{{cerere.prenume}}</td>
+              <td>{{cerere.facultate}}</td>
+              <td>{{cerere.an}}</td>
+              <td>{{cerere.oras}}</td>
+              <td>{{cerere.judet}}</td>
+              <td>{{cerere.telefon}}</td>
+              <td>{{cerere.email}}</td>
               <td>
-                <select name="camera">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" value="" [checked]="cerere.orfan"
+                      onclick="return false;">
+                    <span class="form-check-sign"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" value="" [checked]="cerere.situatieSocialaPrecara"
+                      onclick="return false;">
+                    <span class="form-check-sign"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" value="" [checked]="cerere.situatieMedicalaSpeciala"
+                      onclick="return false;">
+                    <span class="form-check-sign"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <select name="camera" [(ngModel)]="cerere.camera">
+                  <option *ngFor="let camera of toateCamerele" [ngValue]="camera.numarCamera">{{camera.numarCamera}}</option>
                 </select>
               </td>
               <td><button type="button" class="btn btn-success btn-just-icon"><i class="fa fa-plus"></i></button></td>
+              <td><button id="remove" type="button" class="btn btn-danger btn-just-icon"
+                (click)="deleteRowCerere(cerere)"><i class="fa fa-minus"></i></button></td>
             </tr>
-            </tbody>
+          </tbody>
         </table>
       </div>
 
@@ -78,68 +85,69 @@
     <mat-divider></mat-divider>
     <h4>Număr total de locuri: {{camin.numarLocuri}}</h4>
     <h4>Locuri ocupate: {{camin.locuriOcupate}}</h4>
-    <h4>Șef de cămin: {{camin.idSefCamin.nume}} {{camin.idSefCamin.prenume}}</h4><mat-divider></mat-divider>
+    <h4>Șef de cămin: {{camin.numeSefCamin}}</h4>
+    <mat-divider></mat-divider>
     <h4>Situație pentru fiecare cameră în parte:</h4>
-      <mat-accordion class="panel-size2" *ngFor='let etaj of camerePeEtaje; index as i' >
-        <mat-expansion-panel>
-          <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
-            <mat-panel-title>
-              <strong  *ngIf = 'i>0'>Etaj {{i}}</strong>   
-              <strong  *ngIf = 'i==0'>Parter</strong>      
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-accordion>
-            <mat-expansion-panel  *ngFor='let camera of etaj'>
-              <mat-expansion-panel-header class='card-header' style="background-color:rgba(190, 178, 166, 0.836)">
-                <mat-panel-title>
-                  <strong> Camera {{camera.numarCamera}}</strong>  
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class='card-body'>
-                <div class='table-responsive'>
-                  <table>
-                    <tr>
-                      <th scope="row">Număr total de locuri:</th>
-                      <td>{{camera.numarLocuri}}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Locuri ocupate:</th>
-                      <td>{{camera.locuriOcupate}}</td>
-                    </tr>
-                  </table>
-                </div>
+    <mat-accordion class="panel-size2" *ngFor='let etaj of camerePeEtaje; index as i'>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
+          <mat-panel-title>
+            <strong *ngIf='i>0'>Etaj {{i}}</strong>
+            <strong *ngIf='i==0'>Parter</strong>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor='let camera of etaj'>
+            <mat-expansion-panel-header class='card-header' style="background-color:rgba(190, 178, 166, 0.836)">
+              <mat-panel-title>
+                <strong> Camera {{camera.numarCamera}}</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class='card-body'>
+              <div class='table-responsive'>
+                <table>
+                  <tr>
+                    <th scope="row">Număr total de locuri:</th>
+                    <td>{{camera.numarLocuri}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Locuri ocupate:</th>
+                    <td>{{camera.locuriOcupate}}</td>
+                  </tr>
+                </table>
               </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </mat-expansion-panel>
-      </mat-accordion>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-expansion-panel>
+    </mat-accordion>
   </mat-accordion>
 
-      
+
   <mat-accordion class='card'>
     <h3>Studenții din cămin</h3>
     <mat-divider></mat-divider>
-      <mat-accordion class="panel-size" *ngFor='let etaj of camerePeEtaje; index as i'>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
-            <mat-panel-title>
-              <strong  *ngIf = 'i>0'>Etaj {{i}}</strong>   
-              <strong  *ngIf = 'i==0'>Parter</strong>       
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-accordion>
-            <mat-expansion-panel *ngFor='let camera of etaj'>
-              <mat-expansion-panel-header class='card-header' style="background-color:rgba(190, 178, 166, 0.836)">
-                <mat-panel-title>
-                  <strong> Camera {{camera.numarCamera}}</strong>  
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              
-              <div class='card-body'>
-                <div class='table-responsive'>
-                  <table class='mytable'>
-                    <thead>
-                      <tr>
+    <mat-accordion class="panel-size" *ngFor='let etaj of camerePeEtaje; index as i'>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
+          <mat-panel-title>
+            <strong *ngIf='i>0'>Etaj {{i}}</strong>
+            <strong *ngIf='i==0'>Parter</strong>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor='let camera of etaj'>
+            <mat-expansion-panel-header class='card-header' style="background-color:rgba(190, 178, 166, 0.836)">
+              <mat-panel-title>
+                <strong> Camera {{camera.numarCamera}}</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class='card-body'>
+              <div class='table-responsive'>
+                <table class='mytable'>
+                  <thead>
+                    <tr>
                       <th></th>
                       <th>Nume</th>
                       <th>Prenume</th>
@@ -153,11 +161,12 @@
                       <th>Situație socială precară</th>
                       <th>Situație medicală specială</th>
                       <th>Arhivă</th>
-                      </tr>
-                    </thead>
-                    <tbody align="center">
-                    <tr *ngFor='let student of studenti' [attr.id]="student.id">
-                      <td><button id="remove" type="button" class="btn btn-danger btn-just-icon" (click)="deleteRow(student)"><i class="fa fa-minus"></i></button></td>
+                    </tr>
+                  </thead>
+                  <tbody align="center">
+                    <tr *ngFor='let student of studentiDinCamera(camera)' [attr.id]="student.id">
+                      <td><button id="remove" type="button" class="btn btn-danger btn-just-icon"
+                          (click)="deleteRowStudent(student)"><i class="fa fa-minus"></i></button></td>
                       <td>{{student.nume}}</td>
                       <td>{{student.prenume}}</td>
                       <td>{{student.facultate}}</td>
@@ -166,40 +175,46 @@
                       <td>{{student.judet}}</td>
                       <td>{{student.telefon}}</td>
                       <td>{{student.email}}</td>
-                      <td><div class="form-check">
-                        <label class="form-check-label">
-                          <!-- <input *ngIf = '{{student.orfan}}==0' class="form-check-input" type="checkbox" value="">
-                          <input *ngIf = '{{student.orfan}}==1' class="form-check-input" type="checkbox" value="" checked=""> -->
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div></td>
-                      <td><div class="form-check">
-                        <label class="form-check-label">
-                            <!-- <input *ngIf = '{{student.situatieSocialaPrecara}}==0' class="form-check-input" type="checkbox" value="">
-                            <input *ngIf = '{{student.situatieSocialaPrecara}}==1' class="form-check-input" type="checkbox" value="" checked=""> -->
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div></td>
-                      <td><div class="form-check">
-                        <label class="form-check-label">
-                            <!-- <input *ngIf = '{{student.situatieMedicalaSpeciala}}==0' class="form-check-input" type="checkbox" value="">
-                            <input *ngIf = '{{student.situatieMedicalaSpeciala}}==1' class="form-check-input" type="checkbox" value="" checked=""> -->
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div></td>
+                      <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" [checked]="student.orfan"
+                                onclick="return false;">
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" [checked]="student.situatieSocialaPrecara"
+                                onclick="return false;">
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" [checked]="student.situatieMedicalaSpeciala"
+                                onclick="return false;">
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </td>
                       <td>{{student.arhiva}}</td>
                     </tr>
-                    </tbody>
-                  </table>
-                
-                </div>
-                </div>
-            
-            </mat-expansion-panel>
-          </mat-accordion>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-accordion> 
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-accordion>
 
   <mat-card class="card">
     <mat-card-title>

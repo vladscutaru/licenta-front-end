@@ -4,9 +4,12 @@
   <mat-accordion class='card' *ngIf="student">
     <h3>Informații cazare</h3>
     <mat-divider></mat-divider>
+    <h6 *ngIf="afisareMesajSucces">{{mesajSucces}}</h6>
+    <h6 *ngIf="afisareMesajEroare">{{mesajEroare}}</h6>
     <h6>în acest moment apari ca fiind cazat în căminul {{student.camin.numarCamin}}, camera {{student.camera}}.</h6>
-    <h6>Dorești ca în anul următor să rămâi în același cămin și în aceeași cameră?</h6>
-    <mat-accordion>
+    <h6 *ngIf="(!sfarsitCerere)">Dorești ca în anul următor să rămâi în același cămin și în
+      aceeași cameră?</h6>
+    <mat-accordion *ngIf="(!sfarsitCerere)">
       <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
         <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
           <mat-panel-title>
@@ -88,8 +91,7 @@
             <input type="text" class="form-control form-control-success" id="inputSuccess1" value={{student.camera}}
               readonly>
           </div>
-          <button type="button" class="btn btn-outline-success btn-round">Trimite</button>
-          <!-- <button type="button" class="btn btn-outline-success btn-round" (click)="submit()">Trimite</button> -->
+          <button type="button" class="btn btn-outline-success btn-round" (click)="submitDa()">Trimite</button>
 
         </form>
         <mat-action-row>
@@ -99,7 +101,7 @@
 
       </mat-expansion-panel>
     </mat-accordion>
-    <mat-accordion>
+    <mat-accordion *ngIf="(!sfarsitCerere)">
       <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
         <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
           <mat-panel-title>
@@ -174,19 +176,17 @@
           Selectează căminul:
           <div class="form-group">
             <select class="form-control" name="camin" [(ngModel)]="caminSelectat" (change)="selectCamin()">
-              <option value="" selected disabled hidden>Selectează camera</option>
               <option *ngFor="let camin of camine" [ngValue]="camin">{{camin.numarCamin}}</option>
             </select>
           </div>
           Selectează camera:
           <div class="form-group">
             <select class="form-control" name="camera" [(ngModel)]="cameraSelectata" (change)="selectCamera()">
-              <option value="" selected disabled hidden>Selectează camera</option>
               <option *ngFor="let camera of camere" [ngValue]="camera">{{camera.numarCamera}}</option>
             </select>
           </div>
 
-          <button type="button" class="btn btn-outline-success btn-round">Trimite</button>
+          <button type="button" class="btn btn-outline-success btn-round" (click)="submitNu()">Trimite</button>
         </form>
 
 
