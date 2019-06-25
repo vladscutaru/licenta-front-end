@@ -66,12 +66,14 @@
               </td>
               <td>
                 <select name="camera" [(ngModel)]="cerere.camera">
-                  <option *ngFor="let camera of toateCamerele" [ngValue]="camera.numarCamera">{{camera.numarCamera}}</option>
+                  <option *ngFor="let camera of camereDisponibile" [ngValue]="camera.numarCamera">{{camera.numarCamera}}
+                  </option>
                 </select>
               </td>
-              <td><button type="button" class="btn btn-success btn-just-icon"><i class="fa fa-plus"></i></button></td>
+              <td><button id="add" type="button" class="btn btn-success btn-just-icon"
+                  (click)="addStudentFromCerere(cerere)"><i class="fa fa-plus"></i></button></td>
               <td><button id="remove" type="button" class="btn btn-danger btn-just-icon"
-                (click)="deleteRowCerere(cerere)"><i class="fa fa-minus"></i></button></td>
+                  (click)="updateRowCerere(cerere, deniedStatus)"><i class="fa fa-minus"></i></button></td>
             </tr>
           </tbody>
         </table>
@@ -80,11 +82,15 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-accordion class='card' *ngIf="camin">
-    <h3>Raport cămin {{camin.numarCamin}}</h3>
+  <mat-accordion class='card' *ngIf="camin" id="test">
+    <div class="raportTitle">
+      <h3 style="flex: 1; padding-left: 44px;">Raport cămin {{camin.numarCamin}}</h3>
+      <button style="float: right;" id="raport" type="button" class="btn btn-success btn-just-icon"
+        (click)="exportCamere()"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+    </div>
     <mat-divider></mat-divider>
     <h4>Număr total de locuri: {{camin.numarLocuri}}</h4>
-    <h4>Locuri ocupate: {{camin.locuriOcupate}}</h4>
+    <h4>Locuri ocupate: {{getNumarStudentiCazatiInCamin()}}</h4>
     <h4>Șef de cămin: {{camin.numeSefCamin}}</h4>
     <mat-divider></mat-divider>
     <h4>Situație pentru fiecare cameră în parte:</h4>
@@ -125,7 +131,12 @@
 
 
   <mat-accordion class='card'>
-    <h3>Studenții din cămin</h3>
+      <div class="raportTitle">
+          <h3 style="flex: 1; padding-left: 44px;">Studenții din cămin</h3>
+          <button style="float: right;" id="raport" type="button" class="btn btn-success btn-just-icon"
+            (click)="exportStudenti()"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+        </div>
+   
     <mat-divider></mat-divider>
     <mat-accordion class="panel-size" *ngFor='let etaj of camerePeEtaje; index as i'>
       <mat-expansion-panel>
@@ -176,33 +187,36 @@
                       <td>{{student.telefon}}</td>
                       <td>{{student.email}}</td>
                       <td>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" value="" [checked]="student.orfan"
-                                onclick="return false;">
-                              <span class="form-check-sign"></span>
-                            </label>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" value="" [checked]="student.situatieSocialaPrecara"
-                                onclick="return false;">
-                              <span class="form-check-sign"></span>
-                            </label>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" value="" [checked]="student.situatieMedicalaSpeciala"
-                                onclick="return false;">
-                              <span class="form-check-sign"></span>
-                            </label>
-                          </div>
-                        </td>
-                      <td>{{student.arhiva}}</td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="" [checked]="student.orfan"
+                              onclick="return false;">
+                            <span class="form-check-sign"></span>
+                          </label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value=""
+                              [checked]="student.situatieSocialaPrecara" onclick="return false;">
+                            <span class="form-check-sign"></span>
+                          </label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value=""
+                              [checked]="student.situatieMedicalaSpeciala" onclick="return false;">
+                            <span class="form-check-sign"></span>
+                          </label>
+                        </div>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" placeholder="{{student.arhiva}}"
+                          [(ngModel)]="student.arhiva" (focus)="focus=true" (blur)="focus=false">
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -222,7 +236,8 @@
     </mat-card-title>
     <mat-divider></mat-divider>
     <mat-card-content>
-      <h6>content</h6>
+      <h6><input type="text" class="form-control" placeholder="Anunțuri" (focus)="focus=true" (blur)="focus=false"
+          readonly></h6>
     </mat-card-content>
   </mat-card>
 </body>

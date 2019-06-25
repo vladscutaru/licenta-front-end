@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallBackendService } from 'app/api-call-backend.service';
-import { Cerere, PENDING_STATUS, ACCEPTED_STATUS } from './cerere.model';
+import { Cerere, PENDING_STATUS } from './cerere.model';
 
 @Component({
   selector: 'app-student',
@@ -9,11 +9,12 @@ import { Cerere, PENDING_STATUS, ACCEPTED_STATUS } from './cerere.model';
 })
 export class StudentComponent implements OnInit {
 
-  idStudent = 12;
+  idStudent = 1;
   student: any;
 
   camine = [];
   camere = [];
+  camereDisponibile = [];
   cereri = [];
   formularCompletat = false;
   caminSelectat: any;
@@ -23,7 +24,7 @@ export class StudentComponent implements OnInit {
   afisareMesajEroare = false;
   sfarsitCerere = false;
 
-  mesajSucces = 'Cerere a fost trimisa cu succes!';
+  mesajSucces = 'Cererea a fost trimisa cu succes!';
   mesajEroare = 'A parut o eroare :(';
 
 
@@ -32,7 +33,8 @@ export class StudentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dataService.getSingleStudent(this.idStudent).subscribe((data: any[]) => {
+    this.dataService.getSingleStudent(this.idStudent)
+    .subscribe((data: any[]) => {
       this.student = data;
     },
       error => () => {
@@ -57,11 +59,6 @@ export class StudentComponent implements OnInit {
           this.cereri = data;
 
           const isPending = !!this.cereri.find((cerere) => cerere.status === PENDING_STATUS);
-          const isAccepted = !!this.cereri.find((cerere) => cerere.status === ACCEPTED_STATUS);
-
-          if (isAccepted) {
-            this.sfarsitCerere = true;
-          }
 
           if (isPending) {
             this.afisareMesajSucces = true;
@@ -73,8 +70,10 @@ export class StudentComponent implements OnInit {
   public selectCamin() {
 
     this.dataService.getAllCameraByNumarCamin(this.caminSelectat.numarCamin)
-      .subscribe((data: any[]) => {
+      .subscribe(
+        (data: any[]) => {
         this.camere = data;
+        this.camereDisponibile = this.camere.filter(camera => camera.locuriOcupate < camera.numarLocuri);
       });
   }
 

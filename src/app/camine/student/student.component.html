@@ -6,10 +6,10 @@
     <mat-divider></mat-divider>
     <h6 *ngIf="afisareMesajSucces">{{mesajSucces}}</h6>
     <h6 *ngIf="afisareMesajEroare">{{mesajEroare}}</h6>
-    <h6>în acest moment apari ca fiind cazat în căminul {{student.camin.numarCamin}}, camera {{student.camera}}.</h6>
-    <h6 *ngIf="(!sfarsitCerere)">Dorești ca în anul următor să rămâi în același cămin și în
-      aceeași cameră?</h6>
-    <mat-accordion *ngIf="(!sfarsitCerere)">
+    <h6 *ngIf="student.camin">Ai fost cazat în căminul {{student.camin.numarCamin}}, camera {{student.camera}}.</h6>
+    <h6 *ngIf="!student.camin">Anul precedent nu ai fost cazat în niciun cămin.</h6>
+    <h6 *ngIf="(!student.cazat && student.camin && !sfarsitCerere)">Dorești ca anul acesta să rămâi în același cămin și în aceeași cameră?</h6>
+    <mat-accordion *ngIf="(!student.cazat && student.camin && !sfarsitCerere)">
       <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
         <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
           <mat-panel-title>
@@ -101,11 +101,12 @@
 
       </mat-expansion-panel>
     </mat-accordion>
-    <mat-accordion *ngIf="(!sfarsitCerere)">
+    <mat-accordion *ngIf="(!student.cazat && !sfarsitCerere)">
       <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
         <mat-expansion-panel-header class='card-header' style="background-color:rgba(141, 108, 74, 0.836)">
           <mat-panel-title>
-            <strong>Nu, doresc sa completez o cerere noua de cazare</strong>
+            <strong *ngIf="(student.camin)">Nu, doresc sa completez o cerere noua de cazare</strong>
+            <strong *ngIf="(!student.camin)">Doresc sa completez o cerere de cazare</strong>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <form action="">
@@ -182,7 +183,7 @@
           Selectează camera:
           <div class="form-group">
             <select class="form-control" name="camera" [(ngModel)]="cameraSelectata" (change)="selectCamera()">
-              <option *ngFor="let camera of camere" [ngValue]="camera">{{camera.numarCamera}}</option>
+              <option *ngFor="let camera of camereDisponibile" [ngValue]="camera">{{camera.numarCamera}}</option>
             </select>
           </div>
 
@@ -203,7 +204,7 @@
       <h4>Anunțuri</h4>
       <mat-divider></mat-divider>
       <mat-card-content>
-
+          <input type="text" class="form-control" placeholder="Anunțuri" (focus)="focus=true" (blur)="focus=false" readonly>
       </mat-card-content>
     </mat-card-title>
   </mat-card>

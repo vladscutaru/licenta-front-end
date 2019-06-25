@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,20 +7,19 @@ import {Router} from '@angular/router';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent 
-{
-    test : Date = new Date();
+export class LoginComponent {
+    test: Date = new Date();
     focus;
     focus1;
-    username:string;
-    password:string;
+    username = "blabla";
+    password = "";
 
-    login()
-    {
-        if(this.username == 'Admin' && this.password == 'admin')
-        {
-            console.log("Welcome");
-        }
+    constructor(private router: Router) { }
+
+    login() {
+        //if (this.username == 'vlad-iulian.scutaru@student.unitbv.ro' && this.password == 'student1') {
+        this.router.navigate(['student']);
+        //}
     }
 
 }
